@@ -2816,8 +2816,12 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: Container(
-              color: AppColors.baseWhite,
-              width: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/icons/confetti.gif'),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),

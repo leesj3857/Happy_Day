@@ -279,28 +279,43 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   // 완료 화면
   Widget _buildCompletionScreen() {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(Icons.check_circle_outlined, size: 60, color: AppColors.success),
-          const SizedBox(height: 16),
-          Text(
-            '맞춤 설정이 완료됐어요',
-            style: AppTypography.suiteHeading1.copyWith(
-              color: AppColors.success,
-            ),
-            textAlign: TextAlign.center,
+    return Stack(
+      children: [
+        // 배경 GIF - 화면 전체에 맞게 적용
+        Positioned.fill(
+          child: Image.asset('assets/icons/confetti.gif', fit: BoxFit.cover),
+        ),
+        // 중앙 콘텐츠
+        Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.check_circle_outlined,
+                size: 60,
+                color: AppColors.success,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '맞춤 설정이 완료됐어요',
+                style: AppTypography.suiteHeading1.copyWith(
+                  color: AppColors.success,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '앞으로 선물 고를 때 꼭 참고할게요',
+                style: AppTypography.title4.copyWith(
+                  color: AppColors.textLight,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            '앞으로 선물 고를 때 꼭 참고할게요',
-            style: AppTypography.title4.copyWith(color: AppColors.textLight),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
