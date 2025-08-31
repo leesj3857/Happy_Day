@@ -125,7 +125,7 @@ class AppTypography {
 
   static const TextStyle button2 = TextStyle(
     fontFamily: 'Pretendard',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: FontWeight.w600, // SemiBold (600)
     height: 1.0, // 100%
   );
@@ -137,12 +137,27 @@ class AppTypography {
     height: 1.0, // 100%
   );
 
+    static const TextStyle button4 = TextStyle(
+    fontFamily: 'Pretendard',
+    fontSize: 14,
+    fontWeight: FontWeight.w500, // SemiBold (500)
+    height: 1.0, // 100%
+  );
+
+
   // Suite 폰트를 사용하는 스타일들
   static const TextStyle suiteHeading1 = TextStyle(
     fontFamily: 'Suite',
     fontSize: 32,
     fontWeight: FontWeight.w800, // ExtraBold (800)
     height: 1.3,
+  );
+
+  static const TextStyle suiteTitle = TextStyle(
+    fontFamily: 'Suite',
+    fontSize: 28,
+    fontWeight: FontWeight.w600, // SemiBold (600)
+    height: 1.4,
   );
   
   static const TextStyle suiteTitle1 = TextStyle(

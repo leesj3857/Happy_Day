@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // 특별한 날, 잊지 마세요! 섹션
             _buildSpecialDaysSection(),
             const SizedBox(height: 32),
-            
+
             // OO님의 취향에 맞는 선물 섹션
             _buildGiftRecommendationSection(),
             const SizedBox(height: 100), // 하단 네비게이션 바 공간
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          
+
           // 기념일 등록 카드
           Container(
             width: double.infinity,
@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                
+
                 // 기념일 등록 버튼
                 SizedBox(
                   width: double.infinity,
@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                
+
                 // 기념일 목록
                 SizedBox(
                   height: 120,
@@ -145,23 +145,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               child: const Center(
-                                child: Text('📅', style: TextStyle(fontSize: 24)),
+                                child: Text(
+                                  '📅',
+                                  style: TextStyle(fontSize: 24),
+                                ),
                               ),
                             ),
                             const SizedBox(height: 8),
                             Text(
                               '기념일 등록',
-                                          style: AppTypography.caption1.copyWith(
-              color: AppColors.textLight,
-            ),
+                              style: AppTypography.caption1.copyWith(
+                                color: AppColors.textLight,
+                              ),
                               textAlign: TextAlign.center,
                             ),
                           ],
                         ),
                       ),
-                      
+
                       // 등록된 기념일들
-                      ...DummyData.events.map((event) => _buildEventCard(event)),
+                      ...DummyData.events.map(
+                        (event) => _buildEventCard(event),
+                      ),
                     ],
                   ),
                 ),
@@ -187,7 +192,10 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
-              child: Text(event.profileImage, style: const TextStyle(fontSize: 24)),
+              child: Text(
+                event.profileImage,
+                style: const TextStyle(fontSize: 24),
+              ),
             ),
           ),
           const SizedBox(height: 8),
@@ -264,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           const SizedBox(height: 16),
-          
+
           // 가격대 필터
           SizedBox(
             height: 40,
@@ -288,7 +296,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     backgroundColor: AppColors.gray100,
                     selectedColor: AppColors.gray600,
                     labelStyle: TextStyle(
-                      color: priceRange.isSelected ? AppColors.gray00 : AppColors.textDark,
+                      color: priceRange.isSelected
+                          ? AppColors.gray00
+                          : AppColors.textDark,
                     ),
                   ),
                 );
@@ -296,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          
+
           // 상품 목록
           SizedBox(
             height: 200,
@@ -334,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          
+
           // 브랜드명
           Text(
             product.brand,
@@ -344,18 +354,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 4),
-          
+
           // 상품 설명
           Text(
             product.description,
-            style: AppTypography.body3.copyWith(
-              color: AppColors.textDark,
-            ),
+            style: AppTypography.body3.copyWith(color: AppColors.textDark),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 8),
-          
+
           // 가격 또는 펀딩 버튼
           if (product.hasFunding)
             Container(
@@ -401,9 +409,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.gray100,
-        border: Border(
-          top: BorderSide(color: AppColors.gray200, width: 1),
-        ),
+        border: Border(top: BorderSide(color: AppColors.gray200, width: 1)),
       ),
       child: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -421,22 +427,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         unselectedLabelStyle: AppTypography.caption1,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '홈',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag),
             label: '선물 고르기',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: '위시리스트',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.more_horiz),
-            label: '더보기',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: '위시리스트'),
+          BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: '더보기'),
         ],
       ),
     );
