@@ -277,10 +277,6 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
             // 가운데 현재 스텝 디버그 표시
             Expanded(
               child: Center(
-                child: Text(
-                  'STEP $_currentStep',
-                  style: AppTypography.caption1.copyWith(color: Colors.black),
-                ),
               ),
             ),
 
