@@ -275,10 +275,7 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
             ),
 
             // 가운데 현재 스텝 디버그 표시
-            Expanded(
-              child: Center(
-              ),
-            ),
+            Expanded(child: Center()),
 
             // 오른쪽 X 버튼
             IconButton(
@@ -653,6 +650,20 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
             color: isSelected ? AppColors.primaryLight : AppColors.gray300,
             width: isSelected ? 2 : 0.1,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF141414).withOpacity(0.08),
+              offset: const Offset(0, 1),
+              blurRadius: 8,
+              spreadRadius: 2,
+            ),
+            BoxShadow(
+              color: const Color(0xFF141414).withOpacity(0.08),
+              offset: const Offset(0, 0),
+              blurRadius: 1,
+              spreadRadius: 0,
+            ),
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -1025,7 +1036,7 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
     if (price != null) {
       // 1.01배 계산 후 쉼표 포함하여 반환
       double finalPrice = price * 1.01;
-      return finalPrice.toInt().toString();
+      return _formatNumberWithCommas(finalPrice.toInt().toString());
     }
 
     return basePrice;
@@ -1043,10 +1054,30 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
     if (price != null && participantCount != null && participantCount > 0) {
       // 최종 금액을 참여 인원으로 나누고 반올림
       double perPersonAmount = price / participantCount;
-      return perPersonAmount.round().toString();
+      return _formatNumberWithCommas(perPersonAmount.round().toString());
     }
 
     return '';
+  }
+
+  // 숫자에 3자리마다 쉼표 추가하는 헬퍼 메서드
+  String _formatNumberWithCommas(String number) {
+    if (number.isEmpty) return number;
+
+    // 숫자가 아닌 문자 제거
+    String cleanNumber = number.replaceAll(RegExp(r'[^0-9]'), '');
+    if (cleanNumber.isEmpty) return number;
+
+    // 3자리마다 쉼표 추가
+    final result = StringBuffer();
+    for (int i = 0; i < cleanNumber.length; i++) {
+      if (i > 0 && (cleanNumber.length - i) % 3 == 0) {
+        result.write(',');
+      }
+      result.write(cleanNumber[i]);
+    }
+
+    return result.toString();
   }
 
   // 가격 측정 모달
@@ -1564,10 +1595,7 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
             margin: EdgeInsets.zero,
             decoration: BoxDecoration(
               color: isSelected ? AppColors.primary500 : Colors.transparent,
-              borderRadius: BorderRadius.horizontal(
-                left: isStartDate ? const Radius.circular(20) : Radius.zero,
-                right: isEndDate ? const Radius.circular(20) : Radius.zero,
-              ),
+              borderRadius: _getDateBorderRadius(isStartDate, isEndDate),
             ),
             child: Center(
               child: Text(
@@ -1706,7 +1734,12 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
 
   // 날짜가 선택된 범위에 있는지 확인
   bool _isDateInRange(DateTime date) {
-    if (_startDate == null || _endDate == null) return false;
+    if (_startDate == null) return false;
+
+    // 시작일만 선택된 경우
+    if (_endDate == null) {
+      return _isSameDate(date, _startDate!);
+    }
 
     // 시작일과 종료일이 같은 경우 (당일 선택)
     if (_isSameDate(_startDate!, _endDate!)) {
@@ -1769,6 +1802,35 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
   String _getDayOfWeek(DateTime date) {
     const days = ['월', '화', '수', '목', '금', '토', '일'];
     return days[date.weekday - 1];
+  }
+
+  // 날짜별 테두리 반경 결정
+  BorderRadius _getDateBorderRadius(bool isStartDate, bool isEndDate) {
+    // 시작일과 종료일이 모두 설정된 경우 (기간 선택)
+    if (_startDate != null && _endDate != null) {
+      if (isStartDate && isEndDate) {
+        // 시작일과 종료일이 같은 경우 (당일 선택)
+        return BorderRadius.circular(20);
+      } else if (isStartDate) {
+        // 시작일 (왼쪽 둥근 모서리)
+        return const BorderRadius.horizontal(
+          left: Radius.circular(20),
+          right: Radius.zero,
+        );
+      } else if (isEndDate) {
+        // 종료일 (오른쪽 둥근 모서리)
+        return const BorderRadius.horizontal(
+          left: Radius.zero,
+          right: Radius.circular(20),
+        );
+      } else {
+        // 중간 날짜들 (직사각형)
+        return BorderRadius.zero;
+      }
+    } else {
+      // 시작일만 선택된 경우 (동그라미)
+      return BorderRadius.circular(20);
+    }
   }
 
   Widget _buildDeliveryAddressSelection() {
@@ -2746,9 +2808,7 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
   }
 
   Widget _buildCompletionStep() {
-    final linkText = _linkController.text.isNotEmpty
-        ? _linkController.text
-        : 'https://example.com/funding/12345';
+    final linkText = 'https://Happy_Day.com/funding/1292';
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -2786,10 +2846,15 @@ class _MakeFundingScreenState extends State<MakeFundingScreen> {
                         height: 180,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: Image.asset(
-                            'assets/icons/cha.png',
-                            fit: BoxFit.cover,
-                          ),
+                          child: _selectedImage != null
+                              ? Image.file(
+                                  File(_selectedImage!.path),
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  'assets/icons/cha.png',
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       const SizedBox(height: 24),
